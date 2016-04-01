@@ -6,7 +6,9 @@ lazy val itgm7 = project
 name := "itgm7"
 
 libraryDependencies ++= Vector(
-  Library.scalaCheck % "test"
+  "com.typesafe.akka" %% "akka-actor"   % "2.4.2",
+  "io.spray"          %% "spray-client" % "1.3.3",
+  Library.scalaCheck  %  "test"
 )
 
 initialCommands := """|import com.github.rockjam.itgm7._
