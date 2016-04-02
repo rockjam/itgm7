@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.github.rockjam.itgm7.scala
+package com.github.rockjam.itgm7.scala.adt
 
 // мы можем в 20 строк реализовать ADT для JSON-а
 // причем реализация будет очень прямолинейной
@@ -28,16 +28,18 @@ package com.github.rockjam.itgm7.scala
 // * or an object (unordered set of name/value pairs)
 // * or an array (an ordered collection of values)
 // These structures can be nested.
-sealed trait JSON // base of ADT
-case class JsString(s: String) extends JSON
-case class JsNumber(d: Double) extends JSON
-case class JsBoolean(b: Boolean) extends JSON
-case object JsNull extends JSON
-case class JsObject(pairs: Map[String, JSON]) extends JSON
-case class JsArray(values: List[JSON]) extends JSON
+sealed trait JSON                             // A value can be:
+case class JsString(s: String) extends JSON   // * a string in double quotes,
+case class JsNumber(d: Double) extends JSON   // * or a number
+case class JsBoolean(b: Boolean) extends JSON // * or true or false
+case object JsNull extends JSON               // * or null
+case class JsObject(pairs: Map[String, JSON]) // * or an object
+  extends JSON
+case class JsArray(values: List[JSON])        // * or an array
+  extends JSON
 
 object JsObject {
-  def apply(pairs: (String, JSON)*): JsObject = new JsObject(pairs.toMap)
+  def apply(pairs: (String, JSON)*): JsObject = JsObject(pairs.toMap)
 }
 
 object JSON {
@@ -55,24 +57,24 @@ object JSON {
       }) mkString (start = "{", sep = ", ", end = "}")
   }
 
-  val p = JsObject(
+  val jsPhone = JsObject(
     "phone" -> JsString("79006375977"),
     "title" -> JsString("Mobile")
   )
 
-  val e = JsObject(
+  val jsEmail = JsObject(
     "email" -> JsString("vash_typhoon@mail.ru"),
     "title" -> JsString("Email")
   )
 
-  val jsExample = JsObject(
+  val jsPerson = JsObject(
     "name" -> JsString("Nick"),
     "age" -> JsNumber(23.00),
     "is_sleeping" -> JsBoolean(false),
-    "contacts" -> JsArray(List(p, e))
+    "contacts" -> JsArray(List(jsPhone, jsEmail))
   )
 
-  val person = write(jsExample)
+  val person: String = write(jsPerson)
 
   // на выходе получаем вполне валидный такой JSON
   /*
