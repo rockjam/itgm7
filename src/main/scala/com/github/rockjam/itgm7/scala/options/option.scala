@@ -1,4 +1,4 @@
-package com.github.rockjam.itgm7.scala
+package com.github.rockjam.itgm7.scala.options
 
 object Option {
   def apply[A](x:A): Option[A] = if (x == null) None else Some(x)

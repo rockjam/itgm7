@@ -17,6 +17,7 @@
 package com.github.rockjam.itgm7.scala
 
 import akka.actor.ActorSystem
+import com.github.rockjam.itgm7.scala.options.Option
 import spray.client.pipelining._
 import spray.http._
 

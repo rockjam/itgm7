@@ -17,19 +17,17 @@
 package com.github.rockjam.itgm7.scala
 
 // мы можем в 20 строк реализовать ADT для JSON-а
-// причем реализация будет оченьь прямолинейной
+// причем реализация будет очень прямолинейной
 // Берем описание формата с json.org, и идем последовательно
 
-// A value can be
+// A value can be:
 // * a string in double quotes,
 // * or a number,
 // * or true or false
 // * or null,
-// * or an object
-// * or an array.
+// * or an object (unordered set of name/value pairs)
+// * or an array (an ordered collection of values)
 // These structures can be nested.
-// An object is an unordered set of name/value pairs.
-// An array is an ordered collection of values
 sealed trait JSON // base of ADT
 case class JsString(s: String) extends JSON
 case class JsNumber(d: Double) extends JSON
@@ -37,6 +35,10 @@ case class JsBoolean(b: Boolean) extends JSON
 case object JsNull extends JSON
 case class JsObject(pairs: Map[String, JSON]) extends JSON
 case class JsArray(values: List[JSON]) extends JSON
+
+object JsObject {
+  def apply(pairs: (String, JSON)*): JsObject = new JsObject(pairs.toMap)
+}
 
 object JSON {
 
@@ -53,24 +55,26 @@ object JSON {
       }) mkString (start = "{", sep = ", ", end = "}")
   }
 
-  val p = JsObject(Map(
+  val p = JsObject(
     "phone" -> JsString("79006375977"),
     "title" -> JsString("Mobile")
-  ))
+  )
 
-  val e = JsObject(Map(
+  val e = JsObject(
     "email" -> JsString("vash_typhoon@mail.ru"),
     "title" -> JsString("Email")
-  ))
+  )
 
-  val jsExample = JsObject(Map(
+  val jsExample = JsObject(
     "name" -> JsString("Nick"),
     "age" -> JsNumber(23.00),
     "is_sleeping" -> JsBoolean(false),
     "contacts" -> JsArray(List(p, e))
-  ))
+  )
 
-  // на выходе получаем валидный JSON
+  val person = write(jsExample)
+
+  // на выходе получаем вполне валидный такой JSON
   /*
   {
       "name": "Nick",
@@ -88,6 +92,4 @@ object JSON {
       ]
   }
    */
-  val human = write(jsExample)
-
 }

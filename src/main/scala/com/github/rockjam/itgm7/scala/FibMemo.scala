@@ -19,39 +19,39 @@ package com.github.rockjam.itgm7.scala
 
 object FibMemo {
 
-import scala.collection.mutable
+  import scala.collection.mutable
 
-def fib: BigInt => BigInt = {
-  val memo = mutable.Map.empty[BigInt, BigInt]
+  def fib: BigInt => BigInt = {
+    val memo = mutable.Map.empty[BigInt, BigInt]
 
-  def aux: BigInt => BigInt = { n =>
-    if (n <= 1) n
-    else {
-      memo.get(n) match {
-        case None =>
-          val a = n - 1
-          val b = n - 2
-          val r = aux(a)
-          val s = aux(b)
-          memo += (a -> r)
-          memo += (b -> s)
-          r + s
-        case Some(v) => v
+    def aux: BigInt => BigInt = { n =>
+      if (n <= 1) n
+      else {
+        memo.get(n) match {
+          case None =>
+            val a = n - 1
+            val b = n - 2
+            val r = aux(a)
+            val s = aux(b)
+            memo += (a -> r)
+            memo += (b -> s)
+            r + s
+          case Some(v) => v
+        }
       }
     }
+    aux
   }
-  aux
-}
 
-def time[T](f: => T): (T, Long) = {
-  val before = System.currentTimeMillis
-  val result = f
-  val took = System.currentTimeMillis - before
-  (result, took)
-}
+  def time[T](f: => T): (T, Long) = {
+    val before = System.currentTimeMillis
+    val result = f
+    val took = System.currentTimeMillis - before
+    (result, took)
+  }
 
-  println(time(FibMemo.fib(1000))._2)
+  println(time(fib(1000))._2)
 
-  println(time(FibMemo.fib(4000))._2)
-  println(time(FibMemo.fib(4000)))
+  println(time(fib(1000))._2)
+  println(time(fib(1000))._2)
 }
