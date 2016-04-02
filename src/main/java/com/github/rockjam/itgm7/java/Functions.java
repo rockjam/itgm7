@@ -41,18 +41,18 @@ public class Functions {
         new Thread(() -> System.out.println("foo"));
 
 
-        final List<com.github.rockjam.itgm7.java.Person> persons = new ArrayList<>();
-        persons.add(new com.github.rockjam.itgm7.java.Person("Homer", "Simpson"));
-        persons.add(new com.github.rockjam.itgm7.java.Person("Marge", "Simpson"));
-        persons.add(new com.github.rockjam.itgm7.java.Person("Mr.", "Burns"));
+final List<Person> persons = new ArrayList<>();
+persons.add(new Person("Homer", "Simpson"));
+persons.add(new Person("Marge", "Simpson"));
+persons.add(new Person("Mr.", "Burns"));
 
-        Collections.sort(persons, new Comparator<com.github.rockjam.itgm7.java.Person>() {
-            @Override
-            public int compare(com.github.rockjam.itgm7.java.Person p1, com.github.rockjam.itgm7.java.Person p2) {
-                return p1.getName().compareTo(p2.getName());
-            }
-        });
-        Collections.sort(persons, (p1, p2) -> p1.getName().compareTo(p2.getName()));
+Collections.sort(persons, new Comparator<Person>() {
+    @Override
+    public int compare(Person p1, Person p2) {
+        return p1.getName().compareTo(p2.getName());
+    }
+});
+Collections.sort(persons, (p1, p2) -> p1.getName().compareTo(p2.getName()));
 
         final List<RegisteredPerson> registered = new ArrayList<>();
         registered.add(new RegisteredPerson("Homer", "Simpson", "homer@gmail.com", "fatguy"));
@@ -66,12 +66,10 @@ public class Functions {
     // убираем все секретные данные пользователей.
     // можно использовать FluentIterable и transform в Guava.
     // в Java 8 можно заменить на collect
-    // final List<Person> withoutSecrets =
-    // registered.stream().map(p -> new Person(p.getName(), p.getLastName())).collect(Collectors.toList());
-    static List<com.github.rockjam.itgm7.java.Person> removeSecretFields(List<RegisteredPerson> registered) {
-        final List<com.github.rockjam.itgm7.java.Person> withoutSecrets = new ArrayList<>();
+    static List<Person> removeSecretFields(List<RegisteredPerson> registered) {
+        final List<Person> withoutSecrets = new ArrayList<>();
         for (RegisteredPerson p : registered) {
-            withoutSecrets.add(new com.github.rockjam.itgm7.java.Person(p.getName(), p.getLastName()));
+            withoutSecrets.add(new Person(p.getName(), p.getLastName()));
         }
         return withoutSecrets;
     }

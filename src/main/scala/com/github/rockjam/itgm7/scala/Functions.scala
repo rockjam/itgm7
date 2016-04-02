@@ -32,26 +32,26 @@ object Functions {
 
   val plusTwo: Int => Int = inc andThen inc
 
-  def plusSix(i: Int): Int = inc(inc(inc(inc(inc(inc(i))))))
+  def plusSix: Int => Int =  inc andThen inc andThen inc andThen inc andThen inc andThen inc
 
   // имея функцию в ФЯП мы можем обращаться с ней как с значением,
   // мы можем возвращать функции как значения
-  def repeat[A](f: A => A, repeatTimes: Int): A => A = {
-    def aux(f: A => A, acc: A => A, times: Int) =
-      if (times == 1) f else repeat(f andThen f, times - 1)
-    aux(f, f, repeatTimes)
-  }
+def repeat[A](f: A => A, repeatTimes: Int): A => A = {
+  def aux(f: A => A, acc: A => A, times: Int) =
+    if (times == 1) f else repeat(f andThen f, times - 1)
+  aux(f, f, repeatTimes)
+}
 
-  val l = List(
-    Person("Homer", "Simpson"),
-    Person("Marge", "Simpson"),
-    Person("Bart", "Simpson"),
-    Person("Mr.", "Burns")
-  )
+val l = List(
+  Person("Homer", "Simpson"),
+  Person("Marge", "Simpson"),
+  Person("Bart", "Simpson"),
+  Person("Mr.", "Burns")
+)
 
-  l.sorted(Ordering.by({ p: java.Person => p.name }))
-  l.sortBy(_.name)
-  l.sortWith((p1, p2) => p1.name < p2.name)
+l.sorted(Ordering.by({ p: Person => p.name }))
+l.sortBy(_.name)
+l.sortWith((p1, p2) => p1.name < p2.name)
 
   val registered = List(
     RegisteredPerson("Homer", "Simpson", "homer@gmail.com", "fatguy"),
@@ -61,6 +61,8 @@ object Functions {
 
   // настолько кратко, что даже можно не выносить в метод, если это используется один раз.
   val withoutSecrets = registered map { p => Person(p.name, p.lastName) }
+
+  val withoutSecretsFu: List[RegisteredPerson] => List[Person] = _ map { p => Person(p.name, p.lastName) }
 
 //  trait Action[A] {
 //    /**

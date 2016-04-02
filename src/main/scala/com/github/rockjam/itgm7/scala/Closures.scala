@@ -34,6 +34,9 @@ object Closures {
 
   val closure = makePrinter("second foo", "second bar")
 
+  closure()
+//  > third foo second bar first baz
+
   UseClosure.cl() == closure() //should be true
 
   val minValue = 5
